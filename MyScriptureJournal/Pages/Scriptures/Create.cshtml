@@ -1,0 +1,76 @@
+﻿@page
+@model MyScriptureJournal.Pages.Scriptures.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Scripture</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Scripture.DateAdded" class="control-label"></label>
+                <input asp-for="Scripture.DateAdded" id="date" class="form-control" />
+                <button type="button" class="btn btn-primary mt-3" onclick="addCurrentDate()">Add Current Date</button>
+                <span asp-validation-for="Scripture.DateAdded" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Scripture.Book" class="control-label"></label>
+                <input asp-for="Scripture.Book" class="form-control" />
+                <span asp-validation-for="Scripture.Book" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Scripture.Reference" class="control-label"></label>
+                <input asp-for="Scripture.Reference" class="form-control" />
+                <span asp-validation-for="Scripture.Reference" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Scripture.Notes" class="control-label"></label>
+                <textarea asp-for="Scripture.Notes" class="form-control"></textarea>
+                <span asp-validation-for="Scripture.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+<script>
+    function addCurrentDate() {
+        console.log('adding current date');
+        let dateInput = document.getElementById('date');
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = () => {
+            let monthNumber = date.getMonth();
+            monthNumber++;
+            if (monthNumber < 10) {
+                return "0" + monthNumber;
+            } else {
+                return monthNumber;
+            }
+        }
+        let day = () => {
+            if (date.getDate() < 10) {
+                return "0" + date.getDate();
+            } else {
+                return date.getDate();
+            }
+        }
+        dateInput.value = [year, month(), day()].join('-');
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
